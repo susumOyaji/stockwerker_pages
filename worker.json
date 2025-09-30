@@ -1,0 +1,40 @@
+{
+  "status": "success",
+  "data": {
+    "success": [
+      {
+        "code": "6758.T",
+        "name": "ソニーグループ(株)",
+        "price": 4259.0,
+        "change": -9.0,
+        "change_percent": -0.21,
+        "update_time": "15:30"
+      },
+      {
+        "code": "5016.T",
+        "name": "ＪＸ金属(株)",
+        "price": 1960.5,
+        "change": 62.5,
+        "change_percent": 3.29,
+        "update_time": "15:30"
+      },
+      {
+        "code": "998407.O",
+        "name": "日経平均株価",
+        "price": 44932.63,
+        "change": -111.12,
+        "change_percent": -0.25,
+        "update_time": "15:45"
+      },
+      {
+        "code": "8729.T",
+        "name": "ソニーフィナンシャルグループ(株)",
+        "price": 164.0,
+        "change": -9.8,
+        "change_percent": -5.64,
+        "update_time": "15:30"
+      }
+    ],
+    "failed": []
+  }
+}

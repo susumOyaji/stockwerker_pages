@@ -48,10 +48,10 @@ class FinancialData {
       name: json['name'] ?? 'N/A',
       code: json['code'] ?? 'N/A',
       updateTime: json['update_time'] ?? '--:--',
-      currentValue: json['current_value'] ?? '-',
-      bidValue: json['bid_value'],
-      previousDayChange: json['previous_day_change'] ?? '-',
-      changeRate: json['change_rate'] ?? '-',
+      currentValue: (json['price'] ?? '-').toString(),
+      bidValue: json['bid_value'] as String?,
+      previousDayChange: (json['change'] ?? '-').toString(),
+      changeRate: (json['change_percent'] ?? '-').toString(),
     );
   }
 }
@@ -317,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (response.statusCode == 200) {
         final decoded = json.decode(utf8.decode(response.bodyBytes));
         final List<FinancialData> fetchedData =
-            (decoded['data'] as List).map((item) => FinancialData.fromJson(item)).toList();
+            (decoded['data']['success'] as List).map((item) => FinancialData.fromJson(item)).toList();
         final Map<String, FinancialData> dataMap = {for (var data in fetchedData) data.code: data};
         const jsonEncoder = JsonEncoder.withIndent('  ');
         final rawResponseString = jsonEncoder.convert(decoded);
