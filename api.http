@@ -1,0 +1,12 @@
+### ローカルのPages Functionプロキシをテストします
+# 注: ポート番号(8788)はwranglerの出力によって異なる場合があります。
+GET http://localhost:8788/api?code=7203
+
+### ---区切り---
+
+### デプロイ済みのCloudflare Workerを直接テストします（比較用）
+GET https://stock-worker.sumitomo0210.workers.dev/stock/5016.T
+
+### Flutterアプリケーションの実行コマンド (Web)
+# 以下のコマンドをターミナルで実行して、Webアプリケーションを起動します。
+# flutter run -d chrome
