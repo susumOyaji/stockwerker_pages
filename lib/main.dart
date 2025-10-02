@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Stock Ticker',
+      title: 'Flutter Stock Ticker（Self-healing）',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
@@ -149,7 +149,7 @@ class _MyAppState extends State<MyApp> {
         ],
       ),
       home: MyHomePage(
-        title: 'Market & Portfolio',
+        title: 'Market & Portfolio（Self-healing）',
         themeMode: _themeMode,
         onThemeChanged: changeTheme,
       ),
@@ -229,12 +229,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _editStock(int index, int newQuantity, double newAcquisitionPrice) async {
-    if (newQuantity > 0 && newAcquisitionPrice >= 0) {
+  Future<void> _editStock(int index, String newCode, int newQuantity, double newAcquisitionPrice) async {
+    final upperCaseCode = newCode.toUpperCase();
+    if (upperCaseCode.isNotEmpty && newQuantity > 0 && newAcquisitionPrice >= 0) {
       setState(() {
-        final originalItem = _portfolioItems[index];
         _portfolioItems[index] = PortfolioItem(
-          code: originalItem.code,
+          code: upperCaseCode,
           quantity: newQuantity,
           acquisitionPrice: newAcquisitionPrice,
         );
@@ -619,17 +619,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: codeController,
                   autofocus: true,
-                  decoration: const InputDecoration(hintText: 'Stock Code (e.g., AAPL)'),
+                  decoration: const InputDecoration(labelText: 'Stock Code (e.g., AAPL)'),
                 ),
                 TextField(
                   controller: quantityController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(hintText: 'Quantity'),
+                  decoration: const InputDecoration(labelText: 'Quantity'),
                 ),
                 TextField(
                   controller: priceController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(hintText: 'Acquisition Price'),
+                  decoration: const InputDecoration(labelText: 'Acquisition Price'),
                 ),
               ],
             ),
@@ -652,6 +652,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showEditStockDialog(int index) {
     final currentItem = _portfolioItems[index];
+    final codeController = TextEditingController(text: currentItem.code);
     final quantityController = TextEditingController(text: currentItem.quantity.toString());
     final priceController = TextEditingController(text: currentItem.acquisitionPrice.toString());
 
@@ -664,8 +665,12 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  controller: quantityController,
+                  controller: codeController,
                   autofocus: true,
+                  decoration: const InputDecoration(labelText: 'Stock Code'),
+                ),
+                TextField(
+                  controller: quantityController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(labelText: 'Quantity'),
                 ),
@@ -680,9 +685,10 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
               TextButton(
                 onPressed: () {
+                  final code = codeController.text;
                   final quantity = int.tryParse(quantityController.text) ?? 0;
                   final price = double.tryParse(priceController.text) ?? 0.0;
-                  _editStock(index, quantity, price);
+                  _editStock(index, code, quantity, price);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Save'),
@@ -852,11 +858,10 @@ class StockCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (financialData.code != 'USDJPY=FX')
-                          Text(
-                            financialData.currentValue,
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: valueFontSize),
-                          ),
+                        Text(
+                          financialData.currentValue,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: valueFontSize),
+                        ),
                         if (financialData.bidValue != null && financialData.bidValue!.isNotEmpty)
                           Text(
                             '${financialData.bidValue}',
@@ -868,36 +873,15 @@ class StockCard extends StatelessWidget {
                           ),
                       ],
                     ),
-                    if (financialData.code != 'USDJPY=FX')
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(financialData.previousDayChange,
-                              style: TextStyle(color: changeColor, fontSize: changeFontSize)),
-                          Text('(${financialData.changeRate}%)',
-                              style: TextStyle(color: changeColor, fontSize: changeFontSize - 2)),
-                        ],
-                      )
-                    else
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'P/L: ',
-                                  style: TextStyle(fontSize: changeFontSize, color: Colors.blue), // 文字部分は青
-                                ),
-                                TextSpan(
-                                  text: financialData.changeRate,
-                                  style: TextStyle(fontSize: changeFontSize, color: changeRateColor), // 数値部分は正負で色分け
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(financialData.previousDayChange,
+                            style: TextStyle(color: changeColor, fontSize: changeFontSize)),
+                        Text('(${financialData.changeRate}%)',
+                            style: TextStyle(color: changeColor, fontSize: changeFontSize - 2)),
+                      ],
+                    ),
                   ],
                 ),
                 if (portfolioItem != null)
