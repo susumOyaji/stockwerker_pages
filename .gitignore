@@ -31,9 +31,9 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
+#/build/
 # ただし build/web は除外して Git 管理対象にする
-!/build/web
+#!/build/web
 
 # Symbolication related
 app.*.symbols
