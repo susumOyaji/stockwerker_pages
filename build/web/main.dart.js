@@ -78996,7 +78996,7 @@ p=A.oJ(q,new A.kN(q,q,q,q,4,q,new A.cw(A.px(12),B.q)),p,q,q,q)
 s=A.alH(B.Z,q,q,B.t_)
 s=A.oJ(q,new A.kN(q,q,q,q,4,q,new A.cw(A.px(12),B.q)),s,B.Et,new A.oc(q,new A.bN(B.K,t.rc),q,q,q,q),q)
 r=this.d
-return new A.x9(new A.xr("Market & Portfolio\uff08Self-healing\uff09",r,this.gae4(),q),new A.afx(),"Flutter Stock Ticker\uff08Self-healing\uff09",p,s,r,q)}}
+return new A.x9(new A.xr("Market & Portfolio\uff08Self-healing\uff09",r,this.gae4(),q),new A.afx(),"Cloudflare Pages",p,s,r,q)}}
 A.afw.prototype={
 $0(){this.a.d=B.Fz[this.b]},
 $S:0}
