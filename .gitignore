@@ -55,4 +55,5 @@ app.*.map.json
 #flutter run -d edge --web-hostname localhost --web-port 8000
 #flutter build web --release
 #flutter run -d chrome --web-port 8787
-#lutter run -d edge --web-port 8787
+#flutter run -d edge --web-port 8787
+#https://stock-worker.sumitomo0210.workers.dev/stock/^DJI,998407.O,USDJPY=FX
