@@ -32,6 +32,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+# ただし build/web は除外して Git 管理対象にする
+!/build/web
 
 # Symbolication related
 app.*.symbols
